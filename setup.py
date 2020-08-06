@@ -30,15 +30,7 @@ class PyTest(TestCommand):
 
 
 tests_require = read_requirements('test.txt')
-install_requires = [
-    'Flask>=1.1.1',
-    'SQLAlchemy>=1.3.13',
-    'Flask-Cors>=3.0.8',
-    'PyJWT>=1.7.1',
-    'APScheduler>=3.6.3',
-    'requests>=2.23.0',
-    'dnspython>=2.0.0'
-]
+install_requires = ['guniflask>=0.8.1,<0.9']
 
 
 def main():
@@ -66,7 +58,6 @@ def main():
             "Intended Audience :: Developers",
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.6",
             "Topic :: Software Development :: Libraries :: Python Modules"
         ]
     )
