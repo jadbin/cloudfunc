@@ -1,5 +1,7 @@
 # coding=utf-8
 
+from typing import List
+
 from flask import Flask
 from guniflask.annotation import AnnotationUtils
 from guniflask.config.app_config import AppConfig
@@ -9,10 +11,12 @@ from cloudfunc.annotation import CloudFunc, CloudClass
 from cloudfunc.web_context import WebContext
 
 
-def create_app(name, settings=None):
+def create_app(name, settings=None, includes: List[str] = None):
     app = Flask(name)
     config = AppConfig(app, app_settings=settings)
     bean_context = create_bean_context(app)
+    if includes:
+        bean_context.scan(*includes)
     app.bean_context = bean_context
     config.init_app()
     with app.app_context():
@@ -22,7 +26,6 @@ def create_app(name, settings=None):
 
 def create_bean_context(app) -> WebContext:
     bean_context = WebContext(app)
-    bean_context.scan(app.name)
     return bean_context
 
 
