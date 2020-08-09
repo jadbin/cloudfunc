@@ -58,3 +58,18 @@ def _read_requires(file: str) -> List[str]:
                 if s:
                     requires.append(s)
     return requires
+
+
+def run_setup(fname) -> dict:
+    if fname is None or not isfile(fname):
+        raise FileNotFoundError(fname)
+    code = compile(open(fname, 'rb').read(), fname, 'exec')
+    cfg = {
+        "__builtins__": __builtins__,
+        "__name__": "__config__",
+        "__file__": fname,
+        "__doc__": None,
+        "__package__": None
+    }
+    exec(code, cfg, cfg)
+    return cfg
