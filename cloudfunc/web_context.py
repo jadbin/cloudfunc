@@ -3,7 +3,6 @@
 from flask import Flask
 
 from guniflask.context.default_bean_context import AnnotationConfigBeanContext
-from guniflask.service_discovery import ServiceDiscoveryConfiguration
 from guniflask.web.scheduling_config import WebAsyncConfiguration, WebSchedulingConfiguration
 from guniflask.beans.definition import BeanDefinition
 
@@ -23,4 +22,9 @@ class WebContext(AnnotationConfigBeanContext):
 
         self._reader.register(WebAsyncConfiguration)
         self._reader.register(WebSchedulingConfiguration)
+        self._enable_service_discovery()
+
+    def _enable_service_discovery(self):
+        from guniflask.service_discovery import ServiceDiscoveryConfiguration
+
         self._reader.register(ServiceDiscoveryConfiguration)
