@@ -5,6 +5,7 @@ import traceback
 
 from flask import current_app, request, abort, Response
 from guniflask.web import blueprint, post_route, get_route
+from guniflask.config import settings
 
 from cloudfunc.func_info import FuncInfo
 
@@ -16,7 +17,7 @@ class CloudFuncEndpoint:
         args, kwargs = pickle.load(request.data)
         cloud_funcs = current_app.cloud_funcs
         if func_name not in cloud_funcs:
-            abort(404, "No cloud function named '{}.{}'".format(current_app.name, func_name))
+            abort(404, "No cloud function named '{}.{}'".format(settings['project_name'], func_name))
         try:
             result = cloud_funcs[func_name](*args, **kwargs)
         except Exception:
@@ -29,6 +30,7 @@ class CloudFuncEndpoint:
     def get_func_info(self, func_name):
         cloud_funcs = current_app.cloud_funcs
         if func_name not in cloud_funcs:
-            abort(404, "No cloud function named '{}.{}'".format(current_app.name, func_name))
+            abort(404, "No cloud function named '{}.{}'".format(settings['project_name'], func_name))
         info = FuncInfo(cloud_funcs[func_name])
+        info.name = func_name  # rewrite name
         return info.to_dict()

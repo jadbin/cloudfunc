@@ -16,10 +16,10 @@ class FuncInfo:
             self.inspect_func(func)
 
     def inspect_func(self, func):
-        assert inspect.isfunction(func), 'not a function'
+        assert inspect.isfunction(func) or inspect.ismethod(func), 'must be a function/method'
 
+        self.name = func.__name__
         _args, _hints = inspect_args(func)
-
         self.arg_info = []
         for arg, default in _args.items():
             if default is inspect._empty:
@@ -27,7 +27,6 @@ class FuncInfo:
             else:
                 default = repr(default)
             self.arg_info.append({'name': arg, 'default': default})
-
         self.type_info = {}
         for name, dtype in _hints.items():
             if inspect.isclass(dtype):
