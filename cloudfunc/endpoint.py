@@ -3,8 +3,9 @@
 import pickle
 import traceback
 
+from werkzeug.exceptions import HTTPException
 from flask import current_app, request, abort, Response
-from guniflask.web import blueprint, post_route, get_route
+from guniflask.web import blueprint, post_route, get_route, error_handler
 from guniflask.config import settings
 
 from cloudfunc.func_info import FuncInfo
@@ -34,3 +35,7 @@ class CloudFuncEndpoint:
         info = FuncInfo(cloud_funcs[func_name])
         info.name = func_name  # rewrite name
         return info.to_dict()
+
+    @error_handler(HTTPException)
+    def handle_http_exception(self, error: HTTPException):
+        return Response(response=error.description, status=error.code)
