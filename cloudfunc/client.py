@@ -22,7 +22,8 @@ class CloudFuncClient:
             resp = self.session.post(
                 f'http://{self.serve_address}/cloud-funcs/run',
                 params={'name': cloud_func_name},
-                data=data
+                data=data,
+                headers={'Content-Type': 'application/octet-stream'}
             )
         except Exception as e:
             raise CloudFuncError(e)
