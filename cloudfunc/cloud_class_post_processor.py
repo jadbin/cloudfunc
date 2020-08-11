@@ -11,7 +11,7 @@ from guniflask.context import ContextRefreshedEvent, ApplicationEvent, Applicati
 from cloudfunc.annotation import CloudClass
 
 
-class CloudFuncPostProcessor(BeanPostProcessorAdapter, ApplicationEventListener):
+class CloudClassPostProcessor(BeanPostProcessorAdapter, ApplicationEventListener):
     def __init__(self):
         self.cloud_class_instances = {}
 
