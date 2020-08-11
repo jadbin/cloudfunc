@@ -30,7 +30,7 @@ class PyTest(TestCommand):
 
 
 tests_require = read_requirements('test.txt')
-install_requires = ['guniflask>=0.8.6,<0.9']
+install_requires = ['guniflask>=0.8.7,<0.9']
 
 
 def main():
