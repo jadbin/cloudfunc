@@ -8,7 +8,7 @@ from guniflask.annotation import AnnotationUtils
 from guniflask.beans import BeanPostProcessorAdapter
 from guniflask.context import ContextRefreshedEvent, ApplicationEvent, ApplicationEventListener
 
-from cloudfunc.annotation import CloudClass
+from cloudfunc.define import CloudClass
 
 
 class CloudClassPostProcessor(BeanPostProcessorAdapter, ApplicationEventListener):

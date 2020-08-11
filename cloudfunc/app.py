@@ -7,7 +7,7 @@ from guniflask.annotation import AnnotationUtils
 from guniflask.config import AppConfig
 from guniflask.utils.traversal import walk_modules
 
-from cloudfunc.annotation import CloudFunc, CloudClass
+from cloudfunc.define import CloudFunc, CloudClass
 from cloudfunc.web_context import WebContext
 
 
