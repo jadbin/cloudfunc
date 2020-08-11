@@ -19,7 +19,6 @@ class CloudFuncClient:
     def run(self, cloud_func_name: str, *args, **kwargs):
         data = pickle.dumps((args, kwargs))
         try:
-            print('>>>>>', f'http://{self.serve_address}/cloud-funcs/run')
             resp = self.session.post(
                 f'http://{self.serve_address}/cloud-funcs/run',
                 params={'name': cloud_func_name},
@@ -31,5 +30,5 @@ class CloudFuncClient:
             try:
                 resp.raise_for_status()
             except requests.HTTPError:
-                raise CloudFuncError(resp.content)
+                raise CloudFuncError(resp.text)
             return pickle.loads(resp.content)
