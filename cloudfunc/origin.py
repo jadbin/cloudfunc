@@ -19,15 +19,18 @@ load_balanced_request: Union[LoadBalancedRequest, None] = None
 def origin_func(name: str):
     def wrap_func(func):
         def wrapper(*args, **kwargs):
-            debug = os.environ.get('CLOUDFUNC_DEBUG')
-            if debug:
+            global load_balanced_request
+            if load_balanced_request is None:
+                try:
+                    bean_context: BeanContext = current_app.bean_context
+                    load_balanced_request = bean_context.get_bean_of_type(LoadBalancedRequest)
+                except RuntimeError:
+                    pass
+
+            if load_balanced_request is None:
                 client = CloudFuncClient()
                 return client.run(name, *args, **kwargs)
 
-            global load_balanced_request
-            if load_balanced_request is None:
-                bean_context: BeanContext = current_app.bean_context
-                load_balanced_request = bean_context.get_bean_of_type(LoadBalancedRequest)
             try:
                 project_name, func_name = name.split('.', maxsplit=1)
                 resp = load_balanced_request.post(f'http://{project_name}/cloud-funcs/{func_name}')
