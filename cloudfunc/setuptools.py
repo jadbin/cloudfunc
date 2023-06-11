@@ -1,7 +1,7 @@
 # coding=utf-8
 
-from typing import List, Union
 from os.path import isfile
+from typing import List, Union
 
 after_setup = {}
 
@@ -14,7 +14,7 @@ def setup(name: str = None,
           author_email: str = None,
           includes: Union[str, List[str]] = None,
           install_requires: Union[str, List[str]] = None,
-          cloudfunc_requires: Union[str, List[str]] = None):
+          pypi_url: str = None):
     after_setup.clear()
 
     if name is None:
@@ -41,12 +41,7 @@ def setup(name: str = None,
         install_requires = [install_requires]
     after_setup['install_requires'] = install_requires
 
-    if cloudfunc_requires is None:
-        # load cloudfunc_requirements.txt
-        cloudfunc_requires = _read_requires('cloudfunc_requirements.txt')
-    elif isinstance(cloudfunc_requires, str):
-        cloudfunc_requires = [cloudfunc_requires]
-    after_setup['cloudfunc_requires'] = cloudfunc_requires
+    after_setup['pypi_url'] = pypi_url
 
 
 def _read_requires(file: str) -> List[str]:
